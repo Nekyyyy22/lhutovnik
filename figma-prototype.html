@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Lhůtovník – Figma prototyp</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --clr-bg:             #f0f4f8;
+      --clr-surface:        #ffffff;
+      --clr-primary:        #1a56db;
+      --clr-primary-dark:   #1040b0;
+      --clr-primary-light:  #e8f0fe;
+      --clr-success:        #057a55;
+      --clr-success-bg:     #f0fdf4;
+      --clr-success-border: #bbf7d0;
+      --clr-warning:        #b45309;
+      --clr-warning-bg:     #fffbeb;
+      --clr-warning-border: #fde68a;
+      --clr-text:           #111928;
+      --clr-text-muted:     #6b7280;
+      --clr-border:         #e5e7eb;
+      --radius:             16px;
+      --radius-sm:          10px;
+      --shadow:             0 2px 16px rgba(0,0,0,0.08);
+    }
+
+    /* ── STRÁNKA: 2 telefony vedle sebe ── */
+    body {
+      font-family: 'Segoe UI', system-ui, sans-serif;
+      background: #dde3ea;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 2.5rem 1rem 3rem;
+      gap: 2rem;
+    }
+
+    h1.page-title {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: #374151;
+      letter-spacing: 0.3px;
+    }
+
+    .subtitle-page {
+      font-size: 0.82rem;
+      color: #6b7280;
+      margin-top: 0.2rem;
+    }
+
+    .screens-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 2rem;
+      justify-content: center;
+      align-items: flex-start;
+    }
+
+    /* ── JEDEN "TELEFON" ── */
+    .phone-wrap {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.6rem;
+    }
+
+    .screen-label {
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: #374151;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .phone {
+      width: 390px;
+      background: var(--clr-bg);
+      border-radius: 40px;
+      box-shadow: 0 8px 40px rgba(0,0,0,0.18), 0 0 0 10px #1c1c1e;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* ── HEADER ── */
+    .ph-header {
+      background: linear-gradient(160deg, var(--clr-primary) 0%, var(--clr-primary-dark) 100%);
+      color: white;
+      text-align: center;
+      padding: 2rem 1.5rem 1.75rem;
+    }
+
+    .ph-header-icon { font-size: 2.4rem; margin-bottom: 0.35rem; line-height: 1; }
+    .ph-header h2  { font-size: 1.7rem; font-weight: 800; letter-spacing: -0.5px; }
+    .ph-header p   { font-size: 0.85rem; opacity: 0.8; text-transform: uppercase; letter-spacing: 0.5px; margin-top: 0.2rem; }
+
+    /* ── MAIN ── */
+    .ph-main {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      padding: 1.25rem 1rem;
+    }
+
+    /* ── KARTA ── */
+    .ph-card {
+      background: var(--clr-surface);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 1.4rem;
+    }
+
+    .ph-card h3 {
+      font-size: 1rem;
+      font-weight: 700;
+      margin-bottom: 1.1rem;
+      color: var(--clr-text);
+    }
+
+    /* ── POLE ── */
+    .ph-field { margin-bottom: 1rem; }
+
+    .ph-field label {
+      display: block;
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: var(--clr-text-muted);
+      margin-bottom: 0.4rem;
+    }
+
+    .ph-input {
+      width: 100%;
+      border: 1.5px solid var(--clr-border);
+      border-radius: var(--radius-sm);
+      padding: 0.82rem 1rem;
+      font-size: 0.97rem;
+      font-family: inherit;
+      color: var(--clr-text);
+      background: white;
+    }
+
+    .ph-input.active {
+      border-color: var(--clr-primary);
+      box-shadow: 0 0 0 3px rgba(26,86,219,0.12);
+    }
+
+    .ph-select {
+      width: 100%;
+      border: 1.5px solid var(--clr-border);
+      border-radius: var(--radius-sm);
+      padding: 0.82rem 1rem;
+      font-size: 0.97rem;
+      font-family: inherit;
+      color: var(--clr-text);
+      background: white;
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%236b7280' stroke-width='2'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 0.9rem center;
+    }
+
+    /* ── TLAČÍTKO VYPOČÍTAT ── */
+    .ph-btn-calc {
+      width: 100%;
+      background: var(--clr-primary);
+      color: white;
+      border: none;
+      border-radius: var(--radius-sm);
+      padding: 1rem;
+      font-size: 1.02rem;
+      font-weight: 700;
+      text-align: center;
+      margin-top: 0.4rem;
+      box-shadow: 0 4px 12px rgba(26,86,219,0.3);
+      letter-spacing: 0.2px;
+    }
+
+    /* ── VÝSLEDEK – ZELENÝ ── */
+    .ph-result-success {
+      background: var(--clr-success-bg);
+      border: 2px solid var(--clr-success-border);
+      border-radius: var(--radius);
+      padding: 1.4rem;
+    }
+
+    .ph-result-warning {
+      background: var(--clr-warning-bg);
+      border: 2px solid var(--clr-warning-border);
+      border-radius: var(--radius);
+      padding: 1.4rem;
+    }
+
+    .ph-result-header {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin-bottom: 0.85rem;
+    }
+
+    .ph-result-header .icon { font-size: 1.3rem; }
+    .ph-result-header h3   { font-size: 1rem; font-weight: 700; color: var(--clr-text); }
+
+    .ph-result-date {
+      font-size: 2rem;
+      font-weight: 800;
+      color: var(--clr-success);
+      line-height: 1.1;
+      margin-bottom: 0.15rem;
+    }
+
+    .ph-result-warning .ph-result-date {
+      color: var(--clr-warning);
+    }
+
+    .ph-result-sublabel {
+      font-size: 0.78rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: var(--clr-text-muted);
+      margin-bottom: 0.85rem;
+    }
+
+    .ph-result-detail {
+      font-size: 0.88rem;
+      color: var(--clr-text-muted);
+      margin-bottom: 0.7rem;
+      line-height: 1.5;
+    }
+
+    .ph-result-infobox {
+      background: white;
+      border: 1px solid var(--clr-border);
+      border-radius: var(--radius-sm);
+      padding: 0.65rem 0.9rem;
+      font-size: 0.85rem;
+      color: var(--clr-text);
+      line-height: 1.5;
+      margin-bottom: 1rem;
+    }
+
+    .ph-btn-reset {
+      width: 100%;
+      background: transparent;
+      color: var(--clr-primary);
+      border: 1.5px solid var(--clr-primary);
+      border-radius: var(--radius-sm);
+      padding: 0.72rem;
+      font-size: 0.92rem;
+      font-weight: 600;
+      text-align: center;
+    }
+
+    /* ── INFO KARTA ── */
+    .ph-info-card {
+      background: var(--clr-primary-light);
+      border: 1px solid #c7d7f9;
+      border-radius: var(--radius);
+      padding: 1.4rem;
+    }
+
+    .ph-info-card h3 { font-size: 1rem; font-weight: 700; color: var(--clr-primary-dark); margin-bottom: 0.9rem; }
+
+    .ph-info-list { list-style: none; display: flex; flex-direction: column; gap: 0.55rem; }
+
+    .ph-info-list li {
+      font-size: 0.87rem;
+      color: var(--clr-text);
+      line-height: 1.5;
+      padding-left: 1.3rem;
+      position: relative;
+    }
+
+    .ph-info-list li::before {
+      content: '→';
+      position: absolute;
+      left: 0;
+      color: var(--clr-primary);
+      font-weight: 700;
+    }
+
+    /* ── FOOTER ── */
+    .ph-footer {
+      text-align: center;
+      padding: 0.9rem;
+      font-size: 0.76rem;
+      color: var(--clr-text-muted);
+      border-top: 1px solid var(--clr-border);
+      background: var(--clr-surface);
+    }
+  </style>
+</head>
+<body>
+
+  <h1 class="page-title">📱 Lhůtovník – Figma prototyp</h1>
+  <p class="subtitle-page">Mobilní layout · 390 px · 2 stavy obrazovky</p>
+
+  <div class="screens-row">
+
+    <!-- ══════════════════════════════════════════
+         OBRAZOVKA 1: ZADÁNÍ (výchozí stav)
+    ══════════════════════════════════════════ -->
+    <div class="phone-wrap">
+      <div class="screen-label">① Zadání – výchozí stav</div>
+      <div class="phone">
+
+        <div class="ph-header">
+          <div class="ph-header-icon">📅</div>
+          <h2>Lhůtovník</h2>
+          <p>Finanční úřad</p>
+        </div>
+
+        <div class="ph-main">
+
+          <!-- Karta: formulář -->
+          <div class="ph-card">
+            <h3>Zadej parametry lhůty</h3>
+
+            <div class="ph-field">
+              <label>📬 Datum doručení dokumentu</label>
+              <input class="ph-input active" type="text" value="19. 7. 2026" readonly />
+            </div>
+
+            <div class="ph-field">
+              <label>⏱ Délka lhůty</label>
+              <select class="ph-select">
+                <option>— vyberte —</option>
+                <option>8 dní</option>
+                <option selected>15 dní</option>
+                <option>30 dní</option>
+                <option>Zadat ručně...</option>
+              </select>
+            </div>
+
+            <div class="ph-btn-calc">Vypočítat lhůtu</div>
+          </div>
+
+          <!-- Karta: info -->
+          <div class="ph-info-card">
+            <h3>ℹ️ Jak to funguje?</h3>
+            <ul class="ph-info-list">
+              <li>Zadáš datum doručení a délku lhůty.</li>
+              <li>Program přičte zadaný počet dní.</li>
+              <li>Pokud lhůta padne na <strong>sobotu</strong>, posune se na <strong>pondělí</strong>.</li>
+              <li>Pokud padne na <strong>neděli</strong>, posune se na <strong>pondělí</strong>.</li>
+              <li>Pokud padne na <strong>státní svátek</strong>, posune se na nejbližší pracovní den.</li>
+            </ul>
+          </div>
+
+        </div>
+
+        <div class="ph-footer">Lhůtovník · HTML5 · CSS3 · Vanilla JS</div>
+      </div>
+    </div>
+
+    <!-- ══════════════════════════════════════════
+         OBRAZOVKA 2: VÝSLEDEK – pracovní den ✅
+    ══════════════════════════════════════════ -->
+    <div class="phone-wrap">
+      <div class="screen-label">② Výsledek – pracovní den ✅</div>
+      <div class="phone">
+
+        <div class="ph-header">
+          <div class="ph-header-icon">📅</div>
+          <h2>Lhůtovník</h2>
+          <p>Finanční úřad</p>
+        </div>
+
+        <div class="ph-main">
+
+          <!-- Karta: formulář (vyplněný) -->
+          <div class="ph-card">
+            <h3>Zadej parametry lhůty</h3>
+
+            <div class="ph-field">
+              <label>📬 Datum doručení dokumentu</label>
+              <input class="ph-input" type="text" value="19. 7. 2026" readonly />
+            </div>
+
+            <div class="ph-field">
+              <label>⏱ Délka lhůty</label>
+              <select class="ph-select">
+                <option>— vyberte —</option>
+                <option>8 dní</option>
+                <option selected>15 dní</option>
+                <option>30 dní</option>
+                <option>Zadat ručně...</option>
+              </select>
+            </div>
+
+            <div class="ph-btn-calc">Vypočítat lhůtu</div>
+          </div>
+
+          <!-- Výsledek: zelený -->
+          <div class="ph-result-success">
+            <div class="ph-result-header">
+              <span class="icon">✅</span>
+              <h3>Výsledek</h3>
+            </div>
+            <div class="ph-result-date">3. 8. 2026</div>
+            <div class="ph-result-sublabel">pondělí · Konec lhůty</div>
+            <div class="ph-result-detail">Počáteční datum: 19. 7. 2026 · Délka lhůty: 15 dní</div>
+            <div class="ph-result-infobox">✅ Lhůta padá na pracovní den.</div>
+            <div class="ph-btn-reset">↺ Nový výpočet</div>
+          </div>
+
+        </div>
+
+        <div class="ph-footer">Lhůtovník · HTML5 · CSS3 · Vanilla JS</div>
+      </div>
+    </div>
+
+    <!-- ══════════════════════════════════════════
+         OBRAZOVKA 3: VÝSLEDEK – posun víkend ⚠️
+    ══════════════════════════════════════════ -->
+    <div class="phone-wrap">
+      <div class="screen-label">③ Výsledek – posun přes víkend ⚠️</div>
+      <div class="phone">
+
+        <div class="ph-header">
+          <div class="ph-header-icon">📅</div>
+          <h2>Lhůtovník</h2>
+          <p>Finanční úřad</p>
+        </div>
+
+        <div class="ph-main">
+
+          <!-- Karta: formulář -->
+          <div class="ph-card">
+            <h3>Zadej parametry lhůty</h3>
+
+            <div class="ph-field">
+              <label>📬 Datum doručení dokumentu</label>
+              <input class="ph-input" type="text" value="19. 7. 2026" readonly />
+            </div>
+
+            <div class="ph-field">
+              <label>⏱ Délka lhůty</label>
+              <select class="ph-select">
+                <option>— vyberte —</option>
+                <option>8 dní</option>
+                <option>15 dní</option>
+                <option selected>30 dní</option>
+                <option>Zadat ručně...</option>
+              </select>
+            </div>
+
+            <div class="ph-btn-calc">Vypočítat lhůtu</div>
+          </div>
+
+          <!-- Výsledek: oranžový (posun) -->
+          <div class="ph-result-warning">
+            <div class="ph-result-header">
+              <span class="icon">⚠️</span>
+              <h3>Výsledek</h3>
+            </div>
+            <div class="ph-result-date">18. 8. 2026</div>
+            <div class="ph-result-sublabel">úterý · Konec lhůty</div>
+            <div class="ph-result-detail">Počáteční datum: 19. 7. 2026 · Délka lhůty: 30 dní</div>
+            <div class="ph-result-infobox">⚠️ Původní datum padlo na sobotu → posunuto na pondělí. Datum padlo na státní svátek (17. 8. 2026) → posunuto o 1 den dále.</div>
+            <div class="ph-btn-reset">↺ Nový výpočet</div>
+          </div>
+
+        </div>
+
+        <div class="ph-footer">Lhůtovník · HTML5 · CSS3 · Vanilla JS</div>
+      </div>
+    </div>
+
+  </div><!-- /.screens-row -->
+
+</body>
+</html>

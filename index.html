@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Lhůtovník – Finanční úřad</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📅</text></svg>" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <header>
+    <div class="header-icon">📅</div>
+    <h1>Lhůtovník</h1>
+    <p class="header-sub">Finanční úřad</p>
+  </header>
+
+  <main>
+
+    <!-- ── KARTA: ZADÁNÍ ── -->
+    <section class="card">
+      <h2>Zadej parametry lhůty</h2>
+
+      <!-- Počáteční datum -->
+      <div class="field">
+        <label for="startDate">📬 Datum doručení dokumentu</label>
+        <input type="date" id="startDate" />
+      </div>
+
+      <!-- Délka lhůty -->
+      <div class="field">
+        <label for="duration">⏱ Délka lhůty</label>
+        <div class="duration-row">
+          <select id="durationSelect">
+            <option value="">— vyberte —</option>
+            <option value="8">8 dní</option>
+            <option value="15">15 dní</option>
+            <option value="30">30 dní</option>
+            <option value="custom">Zadat ručně...</option>
+          </select>
+          <input
+            type="number"
+            id="durationCustom"
+            placeholder="počet dní"
+            min="1"
+            max="365"
+            class="hidden"
+          />
+        </div>
+      </div>
+
+      <!-- Tlačítko -->
+      <button id="btnCalculate" class="btn-calculate">
+        Vypočítat lhůtu
+      </button>
+    </section>
+
+    <!-- ── KARTA: VÝSLEDEK ── -->
+    <section class="card result-card hidden" id="resultCard">
+
+      <div class="result-header">
+        <span class="result-icon" id="resultIcon">✅</span>
+        <h2>Výsledek</h2>
+      </div>
+
+      <div class="result-date" id="resultDate">—</div>
+      <div class="result-label" id="resultLabel">Konec lhůty</div>
+
+      <div class="result-detail" id="resultDetail"></div>
+
+      <div class="result-info-box" id="resultInfoBox"></div>
+
+      <!-- Nový výpočet -->
+      <button id="btnReset" class="btn-reset">↺ Nový výpočet</button>
+    </section>
+
+    <!-- ── KARTA: JAK TO FUNGUJE ── -->
+    <section class="card info-card">
+      <h2>ℹ️ Jak to funguje?</h2>
+      <ul class="info-list">
+        <li>Zadáš datum doručení a délku lhůty.</li>
+        <li>Program přičte zadaný počet dní.</li>
+        <li>Pokud lhůta padne na <strong>sobotu</strong>, posune se na <strong>pondělí</strong>.</li>
+        <li>Pokud padne na <strong>neděli</strong>, posune se na <strong>pondělí</strong>.</li>
+        <li>Pokud padne na <strong>státní svátek</strong>, posune se na nejbližší pracovní den.</li>
+      </ul>
+    </section>
+
+  </main>
+
+  <footer>
+    <p>Lhůtovník · HTML5 · CSS3 · Vanilla JS</p>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>
